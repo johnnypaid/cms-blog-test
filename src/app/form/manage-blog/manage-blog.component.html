@@ -10,7 +10,7 @@
               <strong class="text-gray-dark">Full Name</strong>
               <span><button type="button" class="btn btn-primary btn-sm manage-btn">Edit</button> <button type="button" class="btn btn-danger btn-sm manage-btn">Delete</button></span>
             </div>
-            <span class="d-block">@username @updated: 01/01/1890</span>
+            <span class="d-block">@updated: 01/01/1890</span>
           </div>
         </div>
         <div class="d-flex text-muted pt-3">
@@ -21,7 +21,7 @@
               <strong class="text-gray-dark">Full Name</strong>
               <span><button type="button" class="btn btn-primary btn-sm manage-btn">Edit</button> <button type="button" class="btn btn-danger btn-sm manage-btn">Delete</button></span>
             </div>
-            <span class="d-block">@username @updated: 01/01/1890</span>
+            <span class="d-block">@updated: 01/01/1890</span>
           </div>
         </div>
         <div class="d-flex text-muted pt-3">
@@ -32,45 +32,48 @@
               <strong class="text-gray-dark">Full Name</strong>
               <span><button type="button" class="btn btn-primary btn-sm manage-btn">Edit</button> <button type="button" class="btn btn-danger btn-sm manage-btn">Delete</button></span>
             </div>
-            <span class="d-block">@username @updated: 01/01/1890</span>
+            <span class="d-block">@updated: 01/01/1890</span>
           </div>
         </div>
         <small class="d-block text-end mt-3">
-          <button type="button" class="btn btn-primary btn-sm manage-btn manage-btn2">Create Blog</button>
+          <button type="button" class="btn btn-primary btn-sm manage-btn manage-btn2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create Blog</button>
         </small>
     </div>
-</div>
 
-<!-- <table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">Id</th>
-      <th scope="col">Title</th>
-      <th scope="col">Author</th>
-      <th scope="col">Date Updated</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Blog 1</td>
-      <td>Teryo</td>
-      <td>01/01/1890</td>
-      <td>
-        <span><button type="button" class="btn btn-primary btn-sm btn-sm manage-btn" (click)="updateBlog()">Edit</button></span>
-        <span ><button type="button" class="btn btn-danger btn-sm btn-sm manage-btn" (click)="deleteBlog()">Delete</button></span>
-    </td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Blog 2</td>
-      <td>Teryo</td>
-      <td>01/01/1890</td>
-      <td>
-          <span><button type="button" class="btn btn-primary btn-sm manage-btn">Edit</button></span>
-          <span><button type="button" class="btn btn-danger btn-sm manage-btn">Delete</button></span>
-      </td>
-    </tr>
-  </tbody>
-</table> -->
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Creat New Blog</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="blogEntry" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Title</label>
+                  <input type="text" id="title" class="form-control" formControlName="title">
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Content</label>
+                  <textarea type="text" id="content" class="form-control" formControlName="content"></textarea>
+                </div>
+                <h3>SEO</h3>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Meta Title</label>
+                    <input type="text" id="metaTitle" class="form-control" formControlName="metaTitle">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Meta Description</label>
+                    <textarea type="text" id="metaDescription" class="form-control" formControlName="metaDescription"></textarea>
+                  </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Publish</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

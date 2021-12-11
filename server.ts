@@ -7,6 +7,11 @@ import { join } from 'path';
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
+import * as mongoose from 'mongoose';
+
+import { BlogRoute } from 'src/routes/blog';
+
+const blogRoute: BlogRoute = new BlogRoute();
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -22,27 +27,21 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
-  // MongoDB database settings
+  server.use(express.json());
+  server.use(express.urlencoded({ extended: true }));
 
+  // MongoDB database settings
+  const mongoUri = 'mongodb+srv://teryo:Teryangag_11@cluster0.k1ekq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+  mongoose.connect(mongoUri)
+  .then(() =>  console.log('DB connection successful'))
+  .catch((err) => console.error(err));
 
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
-  // Serve static files from /browser
-  const data = [
-    {
-      title: 'Test Blog 1',
-      content: 'This is the content of blgo 1.'
-    },
-    {
-      title: 'Test Blog 2',
-      content: 'This is the content of blgo 2.'
-    }
-  ];
+  // Serve static files from /browse
+ 
 
-  server.get('/api/v1/blog', (req, res) => {
-    console.log(req.body);
-    res.send(data);
-  });
+  blogRoute.blogRoute(server);
 
   server.get('*.*', express.static(distFolder, {
     maxAge: '1y'

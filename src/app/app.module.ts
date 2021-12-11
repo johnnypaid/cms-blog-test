@@ -10,6 +10,7 @@ import { LoginComponent } from './form/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ManageBlogComponent } from './form/manage-blog/manage-blog.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
