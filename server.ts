@@ -22,9 +22,28 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
+  // MongoDB database settings
+
+
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
+  const data = [
+    {
+      title: 'Test Blog 1',
+      content: 'This is the content of blgo 1.'
+    },
+    {
+      title: 'Test Blog 2',
+      content: 'This is the content of blgo 2.'
+    }
+  ];
+
+  server.get('/api/v1/blog', (req, res) => {
+    console.log(req.body);
+    res.send(data);
+  });
+
   server.get('*.*', express.static(distFolder, {
     maxAge: '1y'
   }));

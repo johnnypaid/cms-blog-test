@@ -7,6 +7,9 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { BlogComponent } from './blog/blog.component';
 import { LoginComponent } from './form/login/login.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ManageBlogComponent } from './form/manage-blog/manage-blog.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -14,12 +17,15 @@ import { LoginComponent } from './form/login/login.component';
     HeaderComponent,
     FooterComponent,
     BlogComponent,
-    LoginComponent
+    LoginComponent,
+    ManageBlogComponent,
+    PageNotFoundComponent
 
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
