@@ -2,6 +2,7 @@ import 'zone.js/dist/zone-node';
 
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
+import * as cors from 'cors';
 import { join } from 'path';
 
 import { AppServerModule } from './src/main.server';
@@ -27,6 +28,7 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
+  server.use(cors({origin: '*'}));
   server.use(express.json());
   server.use(express.urlencoded({ extended: true }));
 
