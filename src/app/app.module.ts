@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ManageBlogComponent } from './form/manage-blog/manage-blog.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ClickStopPropagationDirective } from './directives/click-stop-propagation.directive';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     BlogComponent,
     LoginComponent,
     ManageBlogComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    BlogComponent,
+    ClickStopPropagationDirective
 
   ],
   imports: [

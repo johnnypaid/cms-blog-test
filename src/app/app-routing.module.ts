@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { BlogViewComponent } from './blog-view/blog-view.component';
 import { BlogComponent } from './blog/blog.component';
 import { LoginComponent } from './form/login/login.component';
 import { ManageBlogComponent } from './form/manage-blog/manage-blog.component';
@@ -11,6 +12,7 @@ const routes: Routes = [
   {path: 'blog', component: BlogComponent},
   {path: 'login', component: LoginComponent},
   {path:'blog/manage', component: ManageBlogComponent},
+  {path:'blog/title/:title', component: BlogViewComponent},
   {path:'**', component: PageNotFoundComponent},
 ];
 

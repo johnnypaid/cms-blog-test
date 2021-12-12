@@ -24,4 +24,12 @@ const BlogSchema = new mongoose.Schema({
      }
 });
 
+BlogSchema.virtual('id').get(function() {
+    return this._id.toHexString();
+});
+
+BlogSchema.set('toJSON', {
+    virtuals: true
+});
+
 export default mongoose.model('Blog', BlogSchema);

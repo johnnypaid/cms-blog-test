@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { BlogService } from 'src/app/service/blog.service';
 
@@ -11,6 +11,12 @@ export class ManageBlogComponent implements OnInit {
 
   resBlogData: any;
   blogData = [];
+  message = '';
+  idToDelete = '';
+
+  @ViewChild('closebutton') closebutton;
+  @ViewChild('success') success;
+  @ViewChild('delete') delete;
 
   blogEntry = this.formBuilder.group({
     title: ['', Validators.required],
@@ -29,25 +35,58 @@ export class ManageBlogComponent implements OnInit {
     this.blogService.getBlog()
       .subscribe(resdata => {
         this.resBlogData = resdata;
-        this.blogData = this.resBlogData;
+        this.blogData = this.resBlogData.data;
         console.log(this.blogData);
       });
   }
 
-  updateBlog() {
-    console.log('Update button!');
+  updateBlog(data: any) {
+    this.blogService.getBlogById(data)
+      .subscribe(resdata => {
+        console.log(resdata);
+      }, err => {
+        console.log(err);
+      });
+  }
+
+  confirmDelete(data: any) {
+    this.idToDelete = data;
+    this.delete.nativeElement.click();
   }
 
   deleteBlog() {
-    console.log('Delete blog!');
+    this.message = '';
+
+    if(this.idToDelete) {
+      this.blogService.deleteBlog(this.idToDelete)
+      .subscribe(resdata => {
+        this.message = 'Blog has been delete.';
+        this.successModal();
+        this.ngOnInit();
+      }, err => {
+        console.log(err.message);
+      });
+    }
   }
 
   onSubmit() {
     // console.log(this.blogEntry.value);
+    this.message = '';
+    
     this.blogService.createBlog(this.blogEntry.value)
       .subscribe(resdata => {
-        console.log(resdata);
-      })
+        this.resBlogData = resdata;
 
+        if(this.resBlogData.success) {
+          this.message = 'Blog has been created and published.';
+          this.ngOnInit();
+          this.successModal();
+        }
+        // this.closebutton.nativeElement.click();
+      });
+  }
+
+  successModal() {
+    this.success.nativeElement.click();
   }
 }

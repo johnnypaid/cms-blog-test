@@ -14,7 +14,19 @@ export class BlogService {
     return this.http.get(this.apiUrl);
   }
 
+  getBlogById(data: any) {
+    return this.http.get(this.apiUrl + '/' + data);
+  }
+
+  updateBlog(data: any) {
+    // return this.http.put(this.apiUrl + '/' + data);
+  }
+
   createBlog(data: any) {
-    return this.http.post(this.apiUrl, data)
+    return this.http.post(this.apiUrl, data);
+  }
+
+  deleteBlog(data:any) {
+    return this.http.delete(this.apiUrl + '/' + data);
   }
 }
