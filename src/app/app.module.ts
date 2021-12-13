@@ -12,6 +12,11 @@ import { ManageBlogComponent } from './form/manage-blog/manage-blog.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClickStopPropagationDirective } from './directives/click-stop-propagation.directive';
+import { AuthService } from './service/auth-service.service';
+import { BlogService } from './service/blog.service';
+import { AuthGuard } from './service/auth-guard.service';
+import { CommonModule } from '@angular/common';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -22,8 +27,8 @@ import { ClickStopPropagationDirective } from './directives/click-stop-propagati
     LoginComponent,
     ManageBlogComponent,
     PageNotFoundComponent,
-    BlogComponent,
-    ClickStopPropagationDirective
+    ClickStopPropagationDirective,
+    HomeComponent
 
   ],
   imports: [
@@ -31,9 +36,14 @@ import { ClickStopPropagationDirective } from './directives/click-stop-propagati
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CommonModule
   ],
-  providers: [],
+  providers: [
+    BlogService,
+    AuthService,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

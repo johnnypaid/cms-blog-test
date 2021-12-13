@@ -1,4 +1,5 @@
 <div class="container">
+    <button type="button" class="btn btn-primary btn-sm manage-btn text-right" (click)="logout()">Logout</button>
     <h1 class="text-center">Manage Blog</h1>
     <div class="my-3 p-3 bg-body rounded shadow-sm">
         <h6 class="border-bottom pb-2 mb-0">Published</h6>
@@ -24,7 +25,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Creat New Blog</h5>
+              <h5 class="modal-title" id="staticBackdropLabel">{{ addUpdateModal }}</h5>
               <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -35,7 +36,7 @@
                 </div>
                 <div class="mb-3">
                   <label for="exampleInputPassword1" class="form-label">Content</label>
-                  <textarea type="text" id="content" class="form-control" formControlName="content"></textarea>
+                  <textarea type="text" id="content" class="form-control manage-content" formControlName="content"></textarea>
                 </div>
                 <h3>SEO</h3>
                 <div class="mb-3">

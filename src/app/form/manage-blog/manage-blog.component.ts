@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/service/auth-service.service';
 import { BlogService } from 'src/app/service/blog.service';
 
 @Component({
@@ -21,6 +23,7 @@ export class ManageBlogComponent implements OnInit {
   getBlogData: any;
   errMessage = '';
   showErr = false;
+  addUpdateModal = '';
 
   @ViewChild('closebutton') closebutton: ElementRef;
   @ViewChild('success') success: ElementRef;
@@ -34,7 +37,11 @@ export class ManageBlogComponent implements OnInit {
     metaDescription: ['']
   });
 
-  constructor(private formBuilder: FormBuilder, private blogService:BlogService) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private blogService:BlogService, 
+    private fakeAuth: AuthService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.getBlog();
@@ -76,6 +83,8 @@ export class ManageBlogComponent implements OnInit {
     if (data) {
       switch(data.submitType) {
         case 'CREATE': {
+          this.addUpdateModal = "Create Blog"
+          this.blogEntry.reset();
           this.submitCase = true;
           this.create.nativeElement.click();
           break;
@@ -83,6 +92,7 @@ export class ManageBlogComponent implements OnInit {
         case 'UPDATE': {
           const getBlogArray = this.blogService.getBlogData();
 
+          this.addUpdateModal = "Update Blog"
           this.getBlogData = getBlogArray.filter(blog => blog.id === data.id);
           console.log(this.getBlogData[0].id);
           this.submitCase = false;
@@ -145,5 +155,10 @@ export class ManageBlogComponent implements OnInit {
 
   successModal() {
     this.success.nativeElement.click();
+  }
+
+  logout() {
+    this.fakeAuth.logout();
+    this.router.navigate(['login']);
   }
 }

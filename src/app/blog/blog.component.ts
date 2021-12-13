@@ -21,7 +21,7 @@ export class BlogComponent implements OnInit {
     this.blog.getBlog()
       .subscribe(resdata => {
         this.resData = resdata;
-        this.blogData = this.resData;
+        this.blogData = this.resData.data;
         console.log(this.blogData);
       })
   }

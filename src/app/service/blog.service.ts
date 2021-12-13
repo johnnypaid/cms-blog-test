@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class BlogService {
 
-  private latestBlogData;
+  private latestBlogData: any;
 
   apiUrl = 'http://localhost:4200/api/v1/blog';
 
@@ -21,7 +21,6 @@ export class BlogService {
   }
 
   getBlogByTitle(title: String) {
-    console.log(title);
     return this.http.get(this.apiUrl + '/blog/' + title);
   }
 

@@ -12,4 +12,11 @@
     &-success h3{
         color: green;
     }
+    &-content {
+        min-height: 400px !important;
+    }
+}
+
+a {
+    text-decoration: none !important;
 }

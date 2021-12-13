@@ -1,0 +1,9 @@
+.home {
+    &-banner {
+        clip-path: polygon(0 0, 100% 0, 100% 79%, 0% 100%);
+    }
+}
+
+a {
+    text-decoration: none !important;
+}

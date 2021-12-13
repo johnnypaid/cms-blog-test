@@ -6,13 +6,14 @@ import { LoginComponent } from './form/login/login.component';
 import { ManageBlogComponent } from './form/manage-blog/manage-blog.component';
 import{ HomeComponent } from './home/home.component'
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AuthGuard } from './service/auth-guard.service';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
+  {path:'blog/manage', component: ManageBlogComponent, canActivate: [AuthGuard]},
+  {path:'blog/title/:title', component: BlogViewComponent},
   {path: 'blog', component: BlogComponent},
   {path: 'login', component: LoginComponent},
-  {path:'blog/manage', component: ManageBlogComponent},
-  {path:'blog/title/:title', component: BlogViewComponent},
+  {path: '', component: HomeComponent},
   {path:'**', component: PageNotFoundComponent},
 ];
 

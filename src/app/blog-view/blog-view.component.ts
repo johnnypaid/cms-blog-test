@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { BlogService } from '../service/blog.service';
 
@@ -10,12 +11,17 @@ import { BlogService } from '../service/blog.service';
 export class BlogViewComponent implements OnInit {
 
   blogTitle: '';
-  blogDescription: '';
+  blogContent: '';
   paramObject = [];
   blogObject: any;
   blogData: any;
 
-  constructor(private route: ActivatedRoute, private blogView: BlogService) { }
+
+  constructor(
+    private route: ActivatedRoute, 
+    private blogView: BlogService,
+    private meta: Meta,
+    private title: Title) { }
 
   ngOnInit(): void {
     this.route.paramMap
@@ -34,7 +40,11 @@ export class BlogViewComponent implements OnInit {
         this.blogObject = resdata;
         this.blogData = this.blogObject.data[0];
         this.blogTitle = this.blogData.title;
-        this.blogDescription = this.blogDescription;
+        this.blogContent = this.blogData.content;
+        this.title.setTitle(this.blogTitle);
+        this.meta.updateTag({name: 'description', content: this.blogData.description});
+
+        console.log(this.blogData);
       });
   }
 
