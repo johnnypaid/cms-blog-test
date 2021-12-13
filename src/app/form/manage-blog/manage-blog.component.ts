@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { BlogService } from 'src/app/service/blog.service';
 
@@ -13,39 +13,41 @@ export class ManageBlogComponent implements OnInit {
   blogData = [];
   message = '';
   idToDelete = '';
+  createType: {submitType: 'CREATE'};
+  showCreateBtn = true;
+  showUpdateBtn = false;
+  submitCase = true;
+  updateId = '';
+  getBlogData: any;
+  errMessage = '';
+  showErr = false;
 
-  @ViewChild('closebutton') closebutton;
-  @ViewChild('success') success;
-  @ViewChild('delete') delete;
+  @ViewChild('closebutton') closebutton: ElementRef;
+  @ViewChild('success') success: ElementRef;
+  @ViewChild('delete') delete: ElementRef;
+  @ViewChild('create') create: ElementRef;
 
   blogEntry = this.formBuilder.group({
     title: ['', Validators.required],
     content: ['', Validators.required],
-    metaTitle: ['', Validators.required],
-    metaDescription: ['', Validators.required]
+    metaTitle: [''],
+    metaDescription: ['']
   });
 
   constructor(private formBuilder: FormBuilder, private blogService:BlogService) { }
 
   ngOnInit(): void {
     this.getBlog();
+    this.showErr = false;
   }
 
   getBlog() {
     this.blogService.getBlog()
       .subscribe(resdata => {
         this.resBlogData = resdata;
-        this.blogData = this.resBlogData.data;
+        this.blogService.setBlogData(this.resBlogData.data);
+        this.blogData = this.blogService.getBlogData();
         console.log(this.blogData);
-      });
-  }
-
-  updateBlog(data: any) {
-    this.blogService.getBlogById(data)
-      .subscribe(resdata => {
-        console.log(resdata);
-      }, err => {
-        console.log(err);
       });
   }
 
@@ -69,21 +71,76 @@ export class ManageBlogComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    // console.log(this.blogEntry.value);
-    this.message = '';
-    
-    this.blogService.createBlog(this.blogEntry.value)
-      .subscribe(resdata => {
-        this.resBlogData = resdata;
-
-        if(this.resBlogData.success) {
-          this.message = 'Blog has been created and published.';
-          this.ngOnInit();
-          this.successModal();
+  addUpdate(data: {submitType: String, id?: String}) {
+    console.log(data);
+    if (data) {
+      switch(data.submitType) {
+        case 'CREATE': {
+          this.submitCase = true;
+          this.create.nativeElement.click();
+          break;
         }
-        // this.closebutton.nativeElement.click();
-      });
+        case 'UPDATE': {
+          const getBlogArray = this.blogService.getBlogData();
+
+          this.getBlogData = getBlogArray.filter(blog => blog.id === data.id);
+          console.log(this.getBlogData[0].id);
+          this.submitCase = false;
+          this.setSubmitModalValue(this.getBlogData);
+          this.create.nativeElement.click();
+          break;
+        }
+      }
+    }
+  }
+  
+  onSubmit() {
+    if(this.blogEntry.valid) {
+      this.message = '';
+      if(this.submitCase === true) {
+        this.blogService.createBlog(this.blogEntry.value)
+        .subscribe(resdata => {
+          this.resBlogData = resdata;
+  
+          if(this.resBlogData.success) {
+            this.message = 'Blog has been created and published.';
+            this.ngOnInit();
+            this.successModal();
+          }
+  
+          this.closebutton.nativeElement.click();
+  
+        }, err => {
+          console.log(err.message);
+        });
+      } else {
+        this.blogService.updateBlog({id: this.getBlogData[0].id, payload: this.blogEntry.value})
+          .subscribe(resdata => {
+            this.resBlogData = resdata;
+  
+            if(this.resBlogData.success) {
+              this.message = 'Blog has been updated and published.';
+              this.ngOnInit();
+              this.successModal();
+            }
+    
+            this.closebutton.nativeElement.click();
+  
+          }, err => {
+            console.log(err);
+          });
+      }
+    } else {
+      this.errMessage = 'Title and content are required.';
+      this.showErr = true;
+    } 
+  }
+
+  setSubmitModalValue(data: {}) {
+    this.blogEntry.controls.title.setValue(data[0].title);
+    this.blogEntry.controls.content.setValue(data[0].content);
+    this.blogEntry.controls.metaTitle.setValue(data[0].metaTitle);
+    this.blogEntry.controls.metaDescription.setValue(data[0].metaDescription);
   }
 
   successModal() {

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { BlogService } from '../service/blog.service';
 
 @Component({
   selector: 'app-blog-view',
@@ -7,9 +9,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BlogViewComponent implements OnInit {
 
-  constructor() { }
+  blogTitle: '';
+  blogDescription: '';
+  paramObject = [];
+  blogObject: any;
+  blogData: any;
+
+  constructor(private route: ActivatedRoute, private blogView: BlogService) { }
 
   ngOnInit(): void {
+    this.route.paramMap
+      .subscribe(params => {
+        this.paramObject.push(params);
+        this.blogTitle = this.paramObject[0].params.title;
+        console.log(this.blogTitle);
+      });
+
+      this.getBlog();
+  }
+
+  getBlog() {
+    this.blogView.getBlogByTitle(this.blogTitle)
+      .subscribe(resdata => {
+        this.blogObject = resdata;
+        this.blogData = this.blogObject.data[0];
+        this.blogTitle = this.blogData.title;
+        this.blogDescription = this.blogDescription;
+      });
   }
 
 }

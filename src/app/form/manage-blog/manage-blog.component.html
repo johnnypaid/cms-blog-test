@@ -6,15 +6,16 @@
           <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="5" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
     
           <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-            <div class="d-flex justify-content-between">
+            <div appClickStopPropagation class="d-flex justify-content-between">
               <strong class="text-gray-dark"><a [routerLink] ="['/blog/title/', blog.title]">{{ blog.title }}</a></strong>
-              <span><button type="button" class="btn btn-primary btn-sm manage-btn" (click)="updateBlog(blog.id)">Edit</button> <button type="button" class="btn btn-danger btn-sm manage-btn" (click)="confirmDelete(blog.id)">Delete</button></span>
+              <span><button type="button" class="btn btn-primary btn-sm manage-btn" (click)="addUpdate({submitType: 'UPDATE', id: blog.id})">Edit</button> <button type="button" class="btn btn-danger btn-sm manage-btn" (click)="confirmDelete(blog.id)">Delete</button></span>
             </div>
             <small class="text-muted"><span class="d-block">@updated {{ blog.datePublished }}</span></small>
           </div>
         </div>
         <small class="d-block text-end mt-3">
-          <button type="button" class="btn btn-primary btn-sm manage-btn manage-btn2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create Blog</button>
+          <button class="btn btn-primary btn-sm manage-btn manage-btn2" (click)="addUpdate({submitType: 'CREATE'})" >Create Blog</button>
+          <button type="button" #create [hidden]="true" class="btn btn-primary btn-sm manage-btn manage-btn2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" ></button>
         </small>
     </div>
 
@@ -45,6 +46,7 @@
                     <label for="exampleInputPassword1" class="form-label">Meta Description</label>
                     <textarea type="text" id="metaDescription" class="form-control" formControlName="metaDescription"></textarea>
                   </div>
+                  <p class="text-danger" *ngIf="showErr">{{ errMessage }}</p>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Publish</button>

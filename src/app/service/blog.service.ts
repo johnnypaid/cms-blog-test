@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 })
 export class BlogService {
 
+  private latestBlogData;
+
   apiUrl = 'http://localhost:4200/api/v1/blog';
 
   constructor(private http: HttpClient) { }
@@ -18,8 +20,13 @@ export class BlogService {
     return this.http.get(this.apiUrl + '/' + data);
   }
 
-  updateBlog(data: any) {
-    // return this.http.put(this.apiUrl + '/' + data);
+  getBlogByTitle(title: String) {
+    console.log(title);
+    return this.http.get(this.apiUrl + '/blog/' + title);
+  }
+
+  updateBlog(data: {id: String, payload: {}}) {
+    return this.http.put(this.apiUrl + '/' + data.id, data.payload);
   }
 
   createBlog(data: any) {
@@ -28,5 +35,13 @@ export class BlogService {
 
   deleteBlog(data:any) {
     return this.http.delete(this.apiUrl + '/' + data);
+  }
+
+  setBlogData(data: any) {
+    this.latestBlogData = data;
+  }
+
+  getBlogData() {
+    return this.latestBlogData;
   }
 }

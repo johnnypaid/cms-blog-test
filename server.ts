@@ -33,7 +33,7 @@ export function app(): express.Express {
   server.use(express.urlencoded({ extended: true }));
 
   // MongoDB database settings
-  const mongoUri = 'mongodb+srv://teryo:Teryangag_11@cluster0.k1ekq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+  const mongoUri = 'mongodb+srv://teryo:teryangag_11@cluster0.nsx4h.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
   mongoose.connect(mongoUri)
   .then(() =>  console.log('DB connection successful'))
   .catch((err) => console.error(err));
